@@ -9,7 +9,7 @@ import net.mgsx.ld42.screens.GameScreen;
 public class LD42 extends Game {
 	
 	public static final int WIDTH = 1024;
-	public static final int HEIGHT = 384;
+	public static final int HEIGHT = 384; // TODO 512
 	
 	@Override
 	public void create () {
