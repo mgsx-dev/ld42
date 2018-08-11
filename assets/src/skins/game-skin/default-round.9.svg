@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="52"
+   height="31"
+   viewBox="0 0 52 31"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="default-round.9.svg">
+  <defs
+     id="defs4">
+    <filter
+       inkscape:label="Fat Oil"
+       inkscape:menu="Bevels"
+       inkscape:menu-tooltip="Fat oil with some adjustable turbulence"
+       height="1.4"
+       width="1.4"
+       y="-0.2"
+       x="-0.2"
+       style="color-interpolation-filters:sRGB"
+       id="filter4486">
+      <feTurbulence
+         numOctaves="3"
+         seed="55"
+         type="fractalNoise"
+         baseFrequency="0.02"
+         id="feTurbulence4488" />
+      <feGaussianBlur
+         stdDeviation="1"
+         result="result91"
+         id="feGaussianBlur4490" />
+      <feDisplacementMap
+         scale="15"
+         yChannelSelector="G"
+         xChannelSelector="R"
+         in="SourceGraphic"
+         in2="result91"
+         id="feDisplacementMap4492" />
+      <feGaussianBlur
+         stdDeviation="1.5"
+         result="result92"
+         id="feGaussianBlur4494" />
+      <feComposite
+         result="fbSourceGraphic"
+         k4="-0.3"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         in2="result92"
+         id="feComposite4496"
+         k1="0" />
+      <feGaussianBlur
+         stdDeviation="3.5"
+         in="fbSourceGraphic"
+         result="result0"
+         id="feGaussianBlur4498" />
+      <feSpecularLighting
+         in="result0"
+         result="result1"
+         lighting-color="#ffffff"
+         surfaceScale="3"
+         specularConstant="1"
+         specularExponent="55"
+         id="feSpecularLighting4500">
+        <feDistantLight
+           azimuth="235"
+           elevation="65"
+           id="feDistantLight4502" />
+      </feSpecularLighting>
+      <feComposite
+         in2="fbSourceGraphic"
+         in="result1"
+         result="result2"
+         operator="in"
+         id="feComposite4504" />
+      <feComposite
+         in="fbSourceGraphic"
+         result="result4"
+         operator="arithmetic"
+         k2="0.4"
+         k3="1.7"
+         in2="result2"
+         id="feComposite4506"
+         k1="0"
+         k4="0" />
+      <feBlend
+         result="fbSourceGraphic"
+         mode="normal"
+         in2="result2"
+         id="feBlend4508" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#554b40"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="16"
+     inkscape:cx="14.03045"
+     inkscape:cy="21.506114"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     units="px"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     gridtolerance="10000"
+     objecttolerance="20"
+     guidetolerance="10000"
+     inkscape:snap-grids="true"
+     inkscape:snap-to-guides="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4601"
+       empspacing="4"
+       snapvisiblegridlinesonly="false" />
+    <sodipodi:guide
+       position="25,21.375"
+       orientation="1,0"
+       id="guide5963" />
+    <sodipodi:guide
+       position="25.9375,20.75"
+       orientation="1,0"
+       id="guide5965" />
+    <sodipodi:guide
+       position="16.625,14.0625"
+       orientation="0,1"
+       id="guide5967" />
+    <sodipodi:guide
+       position="18.375,13.0625"
+       orientation="0,1"
+       id="guide5969" />
+    <sodipodi:guide
+       position="37.8125,25"
+       orientation="0,1"
+       id="guide5971" />
+    <sodipodi:guide
+       position="6.875,21.3125"
+       orientation="1,0"
+       id="guide5973" />
+    <sodipodi:guide
+       position="18.25,4.9375"
+       orientation="0,1"
+       id="guide5975" />
+    <sodipodi:guide
+       position="47,13.5"
+       orientation="1,0"
+       id="guide5977" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1021.3621)">
+    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       id="rect4638"
+       width="1"
+       height="1.0000094"
+       x="0"
+       y="1038.3621"
+       ry="0" />
+    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       id="rect4638-2"
+       width="1"
+       height="0.99994844"
+       x="25"
+       y="1021.3621"
+       ry="0" />
+    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       id="rect4655"
+       width="1"
+       height="20.00001"
+       x="51"
+       y="1027.3621" />
+    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       id="rect4657"
+       width="40"
+       height="1.0000094"
+       x="7"
+       y="1051.3621" />
+    <path
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#8c7663;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="m 4,1022.3621 44,0 3,3 0,23.0001 -3,2.9999 -44,0 -3,-2.9999 0,-23.0001 z"
+       id="rect5916"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ffffff;fill-opacity:0.18987343;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="m 4.2857143,1023.3621 43.4285717,0 2.035714,2 0,23.0001 -2.035714,1.9999 -43.4285717,0 -2.0357143,-1.9999 0,-23.0001 z"
+       id="rect5916-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.47468357;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 2.8793404,1036.5013 0.132107,-9.2087 3.9240988,-3.1202 14.9092488,-0.3531 -12.9468429,1.8462 -3.3781416,2.9067 z"
+       id="path4532"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       style="fill:#000000;fill-opacity:0.16455694;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 49.03026,1040.9378 -0.12565,6.9182 -2.001517,1.8473 -18.920876,0.085 17.089959,-1.005 2.600442,-1.942 z"
+       id="path4532-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc" />
+  </g>
+</svg>

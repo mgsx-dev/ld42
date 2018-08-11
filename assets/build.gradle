@@ -21,9 +21,35 @@ eclipse.project {
     name = appName + "-assets"
 }
 
-/** usage example :
+def skinUnpackedTasks = []
+def skinUnpackedDir = "$buildDir/skins/game-skin"
+def skinSrcDir = "src/skins/game-skin"
 
-task buildAssets(group: 'gdx'){}
+fileTree(skinSrcDir) {
+    include '*.svg'
+}.each {File inFile ->
+	skinUnpackedTasks << inkscapeExport("$skinSrcDir/$inFile.name", "$skinUnpackedDir/")
+}
+
+fileTree(skinSrcDir) {
+    include '*.hiero'
+}.each {File inFile ->
+	def name = inFile.name.take(inFile.name.lastIndexOf('.'))
+	skinUnpackedTasks << gdxHieroExport("$skinSrcDir/$inFile.name", skinUnpackedDir)
+}
+
+skinUnpackedTasks << gdxRawCopy(skinSrcDir, skinUnpackedDir)
+
+
+def skinPackingTask = gdxAtlasPack(skinUnpackedDir, "../android/assets/skins/game-skin")
+skinPackingTask.dependsOn += skinUnpackedTasks
+
+task buildAssets(group: 'gdx', dependsOn: [skinPackingTask]){}
+
+
+
+
+/** usage example :
 
 // TILED :
 buildAssets.dependsOn << tiledMapPacker("src/maps", "$projectDir/../android/assets/maps")
