@@ -26,7 +26,7 @@ public class GameHUD extends Table
 		tableStats.row();
 		
 		add(tableStats);
-		add("Runnng Out of Space").expandX().right();
+		add("Running Out of Space").expandX().right();
 	}
 
 	public void update(Hero hero) {

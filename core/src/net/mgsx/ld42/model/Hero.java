@@ -18,9 +18,10 @@ public class Hero {
 	public int artifacts = 0;
 	public int lifes = GameSettings.HERO_MAX_LIFES;
 	private float consumption;
+	public boolean hurted;
 	
 	public Hero() {
-		sprite = new Sprite(GameAssets.i().heroAnimation.getKeyFrame(2));
+		sprite = new Sprite(GameAssets.i().heroWalkAnimation.getKeyFrame(2));
 		jetPackSprite = new Sprite(GameAssets.i().jetPackAnimation.getKeyFrame(0));
 		jetPackSprite.setOriginCenter();
 	}
@@ -79,7 +80,15 @@ public class Hero {
 			jetPackSprite.draw(batch);
 		}
 		
-		sprite.setRegion(GameAssets.i().heroAnimation.getKeyFrame(timeWalk * 12));
+		if(hurted){
+			sprite.setRegion(GameAssets.i().heroHurted);
+		}
+		else if(altitudeIndex > 0){
+			sprite.setRegion(GameAssets.i().heroFlyAnimation.getKeyFrame(timeWalk * 2, true));
+		}else{
+			sprite.setRegion(GameAssets.i().heroWalkAnimation.getKeyFrame(timeWalk * 12));
+		}
+		
 		sprite.draw(batch);
 		
 	}

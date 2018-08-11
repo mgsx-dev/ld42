@@ -17,7 +17,7 @@ public class GameAssets {
 	
 	public Skin skin;
 	public Texture planet1, hero, bgStars;
-	public Animation<TextureRegion> heroAnimation;
+	public Animation<TextureRegion> heroWalkAnimation;
 	
 	public TextureRegion montainSmall, montainBig, ldBlock;
 	public Animation<TextureRegion> jetPackAnimation;
@@ -26,10 +26,17 @@ public class GameAssets {
 	public TextureRegion bonusGas;
 	public TextureRegion bonusKey;
 	public Array<TextureRegion> asteroidsOne;
+	public Animation<TextureRegion> heroFlyAnimation;
+	public Animation<TextureRegion> heroFixingAnimation;
+	public TextureRegion heroQuestioning;
+	public TextureRegion heroDying;
+	public TextureRegion heroHurted;
+	public Texture planet0;
 	
 	public GameAssets() {
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
 		
+		planet0 = new Texture(Gdx.files.internal("planet0.png"));
 		planet1 = new Texture(Gdx.files.internal("planet1.png"));
 		
 		planet1.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
@@ -61,7 +68,12 @@ public class GameAssets {
 		
 		ldBlock = new TextureRegion(hero, 64 * 2, 64 * 3, 64 * 2, 64 * 2);
 		
-		heroAnimation = new Animation<TextureRegion>(1, frames);
+		heroWalkAnimation = new Animation<TextureRegion>(1, frames);
+		heroFlyAnimation = getAnimation(hero, 0, 8, 1, 1, 4);
+		heroFixingAnimation = getAnimation(hero, 0, 5, 1, 1, 2);
+		heroQuestioning = getCell(hero, 0, 7, 1, 1);
+		heroDying = getCell(hero, 0, 12, 1, 1);
+		heroHurted = getCell(hero, 0, 13, 1, 1);
 		
 		bgStars = new Texture(Gdx.files.internal("bg.png"));
 		

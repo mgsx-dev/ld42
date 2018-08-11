@@ -216,7 +216,9 @@ public class GameScreen extends StageScreen
 
 		viewport.apply(true);
 		
-		GameAssets.i().heroAnimation.setPlayMode(PlayMode.LOOP_PINGPONG);
+		GameAssets.i().heroWalkAnimation.setPlayMode(PlayMode.LOOP_PINGPONG);
+		
+		hero.hurted = collidingEntity != null;
 		
 		hero.update(delta, speed);
 		
