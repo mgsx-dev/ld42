@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import net.mgsx.ld42.LD42;
 
 abstract public class StageScreen extends ScreenAdapter
 {
@@ -15,7 +17,7 @@ abstract public class StageScreen extends ScreenAdapter
 	
 	public StageScreen() 
 	{
-		this(new ScreenViewport());
+		this(new FitViewport(LD42.WIDTH, LD42.HEIGHT));
 	}
 	public StageScreen(Viewport viewport) 
 	{

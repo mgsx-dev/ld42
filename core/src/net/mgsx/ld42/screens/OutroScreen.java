@@ -68,6 +68,7 @@ public class OutroScreen extends StageScreen
 		time += delta;
 		
 		viewport.apply(true);
+		batch.setProjectionMatrix(viewport.getCamera().combined);
 		
 		batch.setColor(Color.WHITE);
 		

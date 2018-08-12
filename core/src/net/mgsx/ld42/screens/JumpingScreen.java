@@ -16,7 +16,7 @@ import net.mgsx.ld42.utils.StageScreen;
 
 public class JumpingScreen extends StageScreen
 {
-private Batch batch = new SpriteBatch();
+	private Batch batch = new SpriteBatch();
 	
 	private Viewport viewport;
 	
@@ -60,6 +60,7 @@ private Batch batch = new SpriteBatch();
 		time += delta;
 		
 		viewport.apply(true);
+		batch.setProjectionMatrix(viewport.getCamera().combined);
 		
 		batch.setColor(Color.WHITE);
 		

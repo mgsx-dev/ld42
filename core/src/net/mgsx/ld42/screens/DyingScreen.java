@@ -66,6 +66,7 @@ private Batch batch = new SpriteBatch();
 		viewport.apply(true);
 		
 		batch.setColor(Color.WHITE);
+		batch.setProjectionMatrix(viewport.getCamera().combined);
 		
 		if(time > 5){
 			GameLevels.level = 0;

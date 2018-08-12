@@ -66,6 +66,7 @@ public class IntroScreen extends StageScreen
 		viewport.apply(true);
 		
 		batch.setColor(Color.WHITE);
+		batch.setProjectionMatrix(viewport.getCamera().combined);
 		
 		stateTime += delta;
 		

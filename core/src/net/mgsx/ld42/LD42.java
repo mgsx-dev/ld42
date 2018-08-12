@@ -4,12 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-import net.mgsx.ld42.screens.GameScreen;
+import net.mgsx.ld42.screens.MenuScreen;
 
 public class LD42 extends Game {
 	
 	public static final int WIDTH = 1024;
-	public static final int HEIGHT = 384; // TODO 512
+	public static final int HEIGHT = 384;
+	
+	public static final int WINDOW_WIDTH = WIDTH;
+	public static final int WINDOW_HEIGHT = 576;
 	
 	public static LD42 i(){
 		return (LD42) Gdx.app.getApplicationListener();
@@ -17,10 +20,10 @@ public class LD42 extends Game {
 	
 	@Override
 	public void create () {
-		setScreen(new GameScreen());
+		//setScreen(new GameScreen());
 		// setScreen(new IntroScreen());
 		// setScreen(new DyingScreen(false));
-		// setScreen(new MenuScreen());
+		setScreen(new MenuScreen());
 		// setScreen(new JumpingScreen());
 		// setScreen(new OutroScreen());
 	}

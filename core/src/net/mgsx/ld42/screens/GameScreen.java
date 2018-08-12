@@ -49,7 +49,7 @@ public class GameScreen extends StageScreen
 	private Array<LandEntity> landEntities = new Array<LandEntity>();
 	private Array<AirEntity> airSprites = new Array<AirEntity>();
 	
-	private float distanceOut, airTimeout;
+	private float distanceOut, airTimeout, bonusTimeout;
 	private float altitudeTime;
 	
 	private BaseEntity collidingEntity;
@@ -69,6 +69,17 @@ public class GameScreen extends StageScreen
 	private Array<EntityType> artifactsTypes = new Array<EntityType>();
 	
 	private boolean outOfGas;
+	
+	
+	private float landGenDistMin = 5;
+	private float landGenDistMax = 10;
+	private float defaultSpeed = 2;
+	
+	private float airGenTimeMin = .5f;
+	private float airGenTimeMax = 2f;
+	
+	private float bonusGenTimeMin = 2f;
+	private float bonusGenTimeMax = 5f;
 	
 	public GameScreen() {
 		
@@ -91,9 +102,27 @@ public class GameScreen extends StageScreen
 		batch = new SpriteBatch();
 		
 		Texture planetTexture;
-		if(GameLevels.level == 0) planetTexture = GameAssets.i().planet1;
-		else if(GameLevels.level == 1) planetTexture = GameAssets.i().planet2;
-		else planetTexture = GameAssets.i().planet3;
+		if(GameLevels.level == 0){
+			planetTexture = GameAssets.i().planet1;
+			landGenDistMin *= 3f;
+			landGenDistMax *= 3f;
+			airGenTimeMin *= 3f;
+			airGenTimeMax *= 3f;
+			defaultSpeed *= .8f;
+		}
+		else if(GameLevels.level == 1){
+			planetTexture = GameAssets.i().planet2;
+			landGenDistMin *= 2f;
+			landGenDistMax *= 2f;
+			airGenTimeMin *= 2f;
+			airGenTimeMax *= 2f;
+			defaultSpeed *= .9f;
+		}
+		else{
+			planetTexture = GameAssets.i().planet3;
+		}
+		
+		
 		
 		planetSprite = new Sprite(planetTexture);
 		
@@ -197,7 +226,7 @@ public class GameScreen extends StageScreen
 
 		hero.resetJetPack();
 		
-		float targetSpeed = 2;
+		float targetSpeed = defaultSpeed;
 		
 		if(planet.isComplete()){
 			altitude = MathUtils.lerp(altitude, 300, Interpolation.linear.apply(arrivalAnimTime));
@@ -250,14 +279,14 @@ public class GameScreen extends StageScreen
 				if(altitude < 10 || true){
 					if(Gdx.input.isKeyPressed(Input.Keys.Q)){
 						hero.jetPackSpawnSlowdown();
-						targetSpeed = .5f;
+						targetSpeed = defaultSpeed / 4f;
 					}else if(Gdx.input.isKeyPressed(Input.Keys.D)){
 						hero.jetPackSpawnSpeedup();
-						targetSpeed = 3f;
+						targetSpeed = defaultSpeed * 1.5f;
 					}
 				}
 			}
-			if(collidingEntity != null) speed = 3;
+			if(collidingEntity != null) speed = defaultSpeed * 1.5f;
 		}
 		
 		speed = MathUtils.lerp(speed, targetSpeed, delta * 3f);
@@ -271,56 +300,73 @@ public class GameScreen extends StageScreen
 			distanceOut -= delta * speed;
 			
 			if(distanceOut < 0){
-				distanceOut = MathUtils.random(5, 10); // XXX MathUtils.random(1, 3);
+				
+				distanceOut = MathUtils.random(landGenDistMin, landGenDistMax);
 				
 				LandEntity entity = new LandEntity();
 				entity.type = EntityType.OBSTACLE;
 				entity.landAngle = -90;
-				Sprite s;
-				if(MathUtils.randomBoolean()){
+				Sprite s = null;
+				if(GameLevels.level == 0){
+					// XXX disabled for level 1
+				}
+				else if(GameLevels.level == 1 || MathUtils.randomBoolean()){
 					s = new Sprite(GameAssets.i().montainSmall[GameLevels.level]);
 					s.setOrigin(s.getWidth()/2, -400);
 					s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 64);
 				}else{
+					// only level 2
 					s = new Sprite(GameAssets.i().montainBig[GameLevels.level]);
 					s.setOrigin(s.getWidth()/2, -400);
 					s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 128);
 				}
 				
-				entity.sprite = s;
-				
-				landEntities.add(entity);
+				if(s != null){
+					entity.sprite = s;
+					landEntities.add(entity);
+				}
 			}
 			
-			airTimeout -= delta;
+			airTimeout -= delta * defaultSpeed;
 			
 			if(airTimeout < 0){
-				airTimeout = MathUtils.random(1, 3);
 				
-				// XXX
-				airTimeout = .5f;
+				airTimeout = MathUtils.random(airGenTimeMin, airGenTimeMax);
 				
 				{
 					AirEntity ae = new AirEntity();
 					
-					if(MathUtils.randomBoolean()){
-						ae.type = EntityType.OBSTACLE;
-						ae.sprite = new Sprite(GameAssets.i().asteroidsOne.random());
-					}else{
-						if(MathUtils.randomBoolean()){
-							ae.type = EntityType.GAS;
-							ae.sprite = new Sprite(GameAssets.i().bonusGas);
-						}else{
-							if(MathUtils.randomBoolean()){
-								ae.type = EntityType.AIR;
-								ae.sprite = new Sprite(GameAssets.i().bonusAir);
-							}else if(MathUtils.randomBoolean()){
-								makeArtifact(ae);
-							}else{
-								ae.type = EntityType.LIFE;
-								ae.sprite = new Sprite(GameAssets.i().bonusLife);
-							}
-						}
+					ae.type = EntityType.OBSTACLE;
+					ae.sprite = new Sprite(GameAssets.i().asteroidsOne.random());
+					
+					Sprite s = ae.sprite;
+					s.setOrigin(s.getWidth()/2, s.getHeight()/2);
+					s.setBounds(worldWidth + s.getWidth(), 150 + MathUtils.random() * 200, s.getRegionWidth(), s.getRegionHeight());
+					airSprites.add(ae);
+				}
+			}
+			
+			bonusTimeout  -= delta * defaultSpeed;
+			
+			if(bonusTimeout < 0){
+				
+				bonusTimeout = MathUtils.random(bonusGenTimeMin, bonusGenTimeMax);
+				
+				{
+					AirEntity ae = new AirEntity();
+					
+					int bonusIndex = MathUtils.random(3);
+					if(bonusIndex == 0){
+						ae.type = EntityType.GAS;
+						ae.sprite = new Sprite(GameAssets.i().bonusGas);
+					}else if(bonusIndex == 1){
+						ae.type = EntityType.AIR;
+						ae.sprite = new Sprite(GameAssets.i().bonusAir);
+					}else if(bonusIndex == 2){
+						ae.type = EntityType.LIFE;
+						ae.sprite = new Sprite(GameAssets.i().bonusLife);
+					}else if(bonusIndex == 3){
+						makeArtifact(ae);
 					}
 					
 					if(ae.type != null){
