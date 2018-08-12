@@ -37,7 +37,7 @@ private Batch batch = new SpriteBatch();
 		
 		root.setFillParent(true);
 		
-		root.add("Planet Completed").expand().top().padTop(20);
+		root.add(GameLevels.planetNames[GameLevels.level] + " completed").expand().top().padTop(20);
 		
 		stage.addActor(root);
 		

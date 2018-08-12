@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import net.mgsx.ld42.model.GameLevels;
 import net.mgsx.ld42.model.GamePlanet;
 import net.mgsx.ld42.model.Hero;
 
@@ -46,8 +47,11 @@ public class GameHUD extends Table
 		lbKey.setColor(Color.GRAY);
 		lbBolt.setColor(Color.GRAY);
 		
-		add(tableStats);
-		add("Running Out of Space").expandX().right().top();
+		
+		add(tableStats).expand().top().left();
+		row();
+		add(GameLevels.planetNames[GameLevels.level]).expandX().center().getActor().setColor(Color.DARK_GRAY);;
+		// add(GameLevels.planetNames[GameLevels.level]).expandX().right().top().getActor().setColor(Color.GRAY);;
 	}
 
 	public void update(Hero hero, GamePlanet planet) {

@@ -16,12 +16,12 @@ public class GameAssets {
 	}
 	
 	public Skin skin;
-	public Texture planet1, hero, bgStars;
+	public Texture planet1, planet2, planet3, hero, bgStars;
 	public Animation<TextureRegion> heroWalkAnimation;
 	
-	public TextureRegion montainSmall, montainBig, ldBlock;
+	public TextureRegion ldBlock;
+	public TextureRegion [] montainSmall, montainBig, montainSmallUp;
 	public Animation<TextureRegion> jetPackAnimation;
-	public TextureRegion montainSmallUp;
 	public TextureRegion bonusAir;
 	public TextureRegion bonusGas;
 	public TextureRegion artifactKey;
@@ -42,8 +42,8 @@ public class GameAssets {
 		
 		planet0 = new Texture(Gdx.files.internal("planet0.png"));
 		planet1 = new Texture(Gdx.files.internal("planet1.png"));
-		
-		planet1.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+		planet2 = new Texture(Gdx.files.internal("planet2.png"));
+		planet3 = new Texture(Gdx.files.internal("planet3.png"));
 		
 		
 		hero = new Texture(Gdx.files.internal("hero.png"));
@@ -56,10 +56,14 @@ public class GameAssets {
 			frames.add(new TextureRegion(hero, 0, 64 * i, 64, 64));
 		}
 		
-		montainSmall = new TextureRegion(hero, 64 * 3, 64 * 1, 64, 64);
-		montainBig = new TextureRegion(hero, 64 * 2, 64 * 0, 64, 128);
-		
-		montainSmallUp = getCell(hero, 4, 0, 1, 2);
+		montainSmall = new TextureRegion[3];
+		montainBig = new TextureRegion[3];
+		montainSmallUp = new TextureRegion[3];
+		for(int i=0 ; i<3 ; i++){
+			montainSmall[i] =   getCell(hero, 3, 9 + i * 3, 1, 1);
+			montainBig[i] =     getCell(hero, 2, 8 + i * 3, 1, 2);
+			montainSmallUp[i] = getCell(hero, 4, 8 + i * 3, 1, 2);
+		}
 		
 		bonusAir = getCell(hero, 5, 0, 1, 1);
 		bonusGas = getCell(hero, 5, 1, 1, 1);

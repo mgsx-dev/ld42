@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-import net.mgsx.ld42.screens.OutroScreen;
+import net.mgsx.ld42.screens.GameScreen;
 
 public class LD42 extends Game {
 	
@@ -17,12 +17,12 @@ public class LD42 extends Game {
 	
 	@Override
 	public void create () {
-		// setScreen(new GameScreen());
+		setScreen(new GameScreen());
 		// setScreen(new IntroScreen());
 		// setScreen(new DyingScreen(false));
 		// setScreen(new MenuScreen());
 		// setScreen(new JumpingScreen());
-		setScreen(new OutroScreen());
+		// setScreen(new OutroScreen());
 	}
 
 	@Override

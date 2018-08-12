@@ -3,6 +3,7 @@ package net.mgsx.ld42.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,6 +20,7 @@ import net.mgsx.ld42.assets.GameAssets;
 import net.mgsx.ld42.model.AirEntity;
 import net.mgsx.ld42.model.BaseEntity;
 import net.mgsx.ld42.model.EntityType;
+import net.mgsx.ld42.model.GameLevels;
 import net.mgsx.ld42.model.GamePlanet;
 import net.mgsx.ld42.model.GameSettings;
 import net.mgsx.ld42.model.Hero;
@@ -80,13 +82,20 @@ public class GameScreen extends StageScreen
 		
 		root.setFillParent(true);
 		
-		root.add(gameHUD = new GameHUD(skin)).expand().fillX().top();
+		root.add(gameHUD = new GameHUD(skin)).grow();
+		
+		// planet.boltComplete = planet.keyComplete = planet.screwComplete = true;
 		
 		stage.addActor(root);
 		
 		batch = new SpriteBatch();
 		
-		planetSprite = new Sprite(GameAssets.i().planet1);
+		Texture planetTexture;
+		if(GameLevels.level == 0) planetTexture = GameAssets.i().planet1;
+		else if(GameLevels.level == 1) planetTexture = GameAssets.i().planet2;
+		else planetTexture = GameAssets.i().planet3;
+		
+		planetSprite = new Sprite(planetTexture);
 		
 		viewport = new FitViewport(worldWidth, worldHeight);
 		
@@ -269,11 +278,11 @@ public class GameScreen extends StageScreen
 				entity.landAngle = -90;
 				Sprite s;
 				if(MathUtils.randomBoolean()){
-					s = new Sprite(GameAssets.i().montainSmall);
+					s = new Sprite(GameAssets.i().montainSmall[GameLevels.level]);
 					s.setOrigin(s.getWidth()/2, -400);
 					s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 64);
 				}else{
-					s = new Sprite(GameAssets.i().montainBig);
+					s = new Sprite(GameAssets.i().montainBig[GameLevels.level]);
 					s.setOrigin(s.getWidth()/2, -400);
 					s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 128);
 				}

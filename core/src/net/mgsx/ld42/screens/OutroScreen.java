@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.mgsx.ld42.LD42;
 import net.mgsx.ld42.assets.GameAssets;
+import net.mgsx.ld42.model.GameLevels;
 import net.mgsx.ld42.utils.StageScreen;
 
 public class OutroScreen extends StageScreen
@@ -106,8 +107,10 @@ public class OutroScreen extends StageScreen
 				lbComplete.addAction(Actions.sequence(Actions.alpha(1, .3f), Actions.delay(5)));
 			}
 		}else if(state == 4){
-			if(!lbComplete.hasActions())
+			if(!lbComplete.hasActions()){
 				LD42.i().setScreen(new MenuScreen());
+				GameLevels.level = 0;
+			}
 		}
 		
 		

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.mgsx.ld42.LD42;
 import net.mgsx.ld42.assets.GameAssets;
+import net.mgsx.ld42.model.GameLevels;
 import net.mgsx.ld42.utils.StageScreen;
 
 public class DyingScreen extends StageScreen
@@ -67,6 +68,7 @@ private Batch batch = new SpriteBatch();
 		batch.setColor(Color.WHITE);
 		
 		if(time > 5){
+			GameLevels.level = 0;
 			LD42.i().setScreen(transitToGame ? new GameScreen() : new MenuScreen());
 		}
 		
