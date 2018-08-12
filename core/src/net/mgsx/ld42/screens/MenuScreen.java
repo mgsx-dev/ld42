@@ -24,8 +24,6 @@ public class MenuScreen extends StageScreen
 
 	public MenuScreen() 
 	{
-		GameAssets.i().playMusic(GameAssets.i().musicTitle);
-		
 		skin = GameAssets.i().skin;
 		
 		Table menu = new Table(skin);
@@ -55,6 +53,9 @@ public class MenuScreen extends StageScreen
 		
 		viewport = new FitViewport(LD42.WIDTH, LD42.HEIGHT);
 		
+		// XXX quick fix GWT ... but doesn't work
+		GameAssets.i().playMusic(GameAssets.i().musicTitle);
+		GameAssets.i().playMusic(GameAssets.i().musicTitle);
 	}
 	
 	@Override

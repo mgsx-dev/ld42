@@ -173,6 +173,6 @@ public class GameAssets {
 	}
 	
 	public void playSFX(Sound snd){
-		snd.play(.2f); // TODO mix
+		snd.play(snd == sndJetPack ? .15f : .25f); // TODO mix
 	}
 }
