@@ -38,7 +38,7 @@ public class LD42 extends Game {
 	@Override
 	public void render () {
 		
-		boolean debug = false;
+		boolean debug = false; // XXX
 		if(debug){
 			if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
 				GameLevels.level = 0;

@@ -52,6 +52,8 @@ public class IntroScreen extends StageScreen
 		planetSprite = new Sprite(GameAssets.i().planet0);
 		
 		viewport = new FitViewport(LD42.WIDTH, LD42.HEIGHT);
+		
+		
 	}
 	
 	@Override
@@ -79,10 +81,12 @@ public class IntroScreen extends StageScreen
 			heroSprite.setPosition(670, 108);
 			state++;
 			stateTime = 0;
+			GameAssets.i().playSFX(GameAssets.i().sndRadio);
 		}else if(state == 1){
 			if(stateTime > 3){ // time fixing
 				stateTime = 0;
 				state++;
+				GameAssets.i().playSFX(GameAssets.i().sndJetPack);
 			}
 			heroSprite.setRegion(GameAssets.i().heroFixingAnimation.getKeyFrame(time * 4, true));
 		}else if(state == 2){
@@ -95,6 +99,7 @@ public class IntroScreen extends StageScreen
 			if(stateTime > 2){ // time waiting dumby
 				stateTime = 0;
 				state++;
+				GameAssets.i().playSFX(GameAssets.i().sndJetPack);
 			}
 			heroSprite.setRegion(GameAssets.i().heroQuestioning);
 		}else if(state == 4){

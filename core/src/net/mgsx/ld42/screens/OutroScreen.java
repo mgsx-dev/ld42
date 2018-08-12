@@ -87,6 +87,7 @@ public class OutroScreen extends StageScreen
 			if(stateTime > 1){ // time waiting
 				stateTime = 0;
 				state++;
+				GameAssets.i().playSFX(GameAssets.i().sndRotation);
 			}
 		}else if(state == 2){
 			float t = stateTime / 2;
@@ -96,6 +97,7 @@ public class OutroScreen extends StageScreen
 				heroSprite.setPosition(tx, ty);
 				stateTime = 0;
 				state++;
+				GameAssets.i().playSFX(GameAssets.i().sndCrush);
 			}else{
 				heroSprite.setX(MathUtils.lerp(ix, tx, t));
 				heroSprite.setY(MathUtils.lerp(iy, ty, t));
@@ -106,6 +108,8 @@ public class OutroScreen extends StageScreen
 			if(stateTime > 1){ // time waiting dumby
 				stateTime = 0;
 				state++;
+				
+				GameAssets.i().playSFX(GameAssets.i().sndGameComplete);
 				
 				lbComplete.addAction(Actions.sequence(Actions.alpha(1, .3f), Actions.delay(5)));
 			}

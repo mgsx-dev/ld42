@@ -263,11 +263,13 @@ public class GameScreen extends StageScreen
 						targetAltitude = sourceAltitude + 64;
 						altitudeTime = 0;
 						hero.jetPackSpawnUp();
+						GameAssets.i().playSFX(GameAssets.i().sndJetPack);
 					}
 					if(targetAltitude > 0 && UniInput.isKeyPressed(UniInput.DOWN)){
 						targetAltitude = sourceAltitude - 64;
 						altitudeTime = 0;
 						hero.jetPackSpawnDown();
+						GameAssets.i().playSFX(GameAssets.i().sndJetPack);
 					}
 				}else{
 					altitudeTime += delta * 4;
@@ -504,37 +506,45 @@ public class GameScreen extends StageScreen
 		case AIR:
 			hero.air = 1; // air max
 			e.toRemove = true;
+			GameAssets.i().playSFX(GameAssets.i().sndBonus);
 			break;
 		case KEY:
 			planet.keyComplete = true;
 			e.toRemove = true;
+			GameAssets.i().playSFX(GameAssets.i().sndBonus);
 			break;
 		case SCREW:
 			planet.screwComplete = true;
 			e.toRemove = true;
+			GameAssets.i().playSFX(GameAssets.i().sndBonus);
 			break;
 		case BOLT:
 			planet.boltComplete = true;
 			e.toRemove = true;
+			GameAssets.i().playSFX(GameAssets.i().sndBonus);
 			break;
 		case GAS:
 			hero.gas = 1; // gas max
 			e.toRemove = true;
+			GameAssets.i().playSFX(GameAssets.i().sndBonus);
 			break;
 		case LIFE:
 			hero.lifes = Math.min(GameSettings.HERO_MAX_LIFES, hero.lifes + 1);
 			e.toRemove = true;
+			GameAssets.i().playSFX(GameAssets.i().sndBonus);
 			break;
 		case NONE:
 			break;
 		case OBSTACLE:
 			collidingEntity = e;
+			GameAssets.i().playSFX(GameAssets.i().sndCrush);
 			break;
 		default:
 			break;
 		}
 		if(planet.isComplete()){
 			arrivalAnimTime = 0;
+			GameAssets.i().playSFX(GameAssets.i().sndLevelComplete);
 		}
 	}
 

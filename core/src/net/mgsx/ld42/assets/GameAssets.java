@@ -2,6 +2,7 @@ package net.mgsx.ld42.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -46,7 +47,14 @@ public class GameAssets {
 	public Music musicGameOver;
 	public Music musicTransition;
 
-	private Music currentMusic;
+	public Music currentMusic;
+	public Sound sndBonus;
+	public Sound sndCrush;
+	public Sound sndGameComplete;
+	public Sound sndJetPack;
+	public Sound sndRadio;
+	public Sound sndLevelComplete;
+	public Sound sndRotation;
 	
 	public GameAssets() {
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
@@ -115,6 +123,16 @@ public class GameAssets {
 		musicIntro = musicOutro = Gdx.audio.newMusic(Gdx.files.internal("music/intro.ogg"));
 		musicGameOver = musicTransition = Gdx.audio.newMusic(Gdx.files.internal("music/deep-fx.ogg"));
 
+		
+		sndBonus =  Gdx.audio.newSound(Gdx.files.internal("sfx/bonus.wav"));
+		sndCrush =  Gdx.audio.newSound(Gdx.files.internal("sfx/crush-short.wav"));
+		sndGameComplete =  Gdx.audio.newSound(Gdx.files.internal("sfx/game-complete.wav"));
+		sndJetPack =  Gdx.audio.newSound(Gdx.files.internal("sfx/jetpack.wav"));
+		sndRadio =  Gdx.audio.newSound(Gdx.files.internal("sfx/ld-radio.wav"));
+		sndLevelComplete =  Gdx.audio.newSound(Gdx.files.internal("sfx/level-end.wav"));
+		sndRotation =  Gdx.audio.newSound(Gdx.files.internal("sfx/rotating.wav"));
+		
+		
 	}
 	
 	private TextureRegion getCell(Texture texture, int col, int row, int cols, int rows)
@@ -154,4 +172,7 @@ public class GameAssets {
 		}
 	}
 	
+	public void playSFX(Sound snd){
+		snd.play(.2f); // TODO mix
+	}
 }
