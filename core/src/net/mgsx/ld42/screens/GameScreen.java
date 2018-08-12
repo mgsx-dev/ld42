@@ -19,6 +19,7 @@ import net.mgsx.ld42.assets.GameAssets;
 import net.mgsx.ld42.model.AirEntity;
 import net.mgsx.ld42.model.BaseEntity;
 import net.mgsx.ld42.model.EntityType;
+import net.mgsx.ld42.model.GamePlanet;
 import net.mgsx.ld42.model.GameSettings;
 import net.mgsx.ld42.model.Hero;
 import net.mgsx.ld42.model.LandEntity;
@@ -54,8 +55,18 @@ public class GameScreen extends StageScreen
 	private Hero hero;
 
 	private GameHUD gameHUD;
+
+	private GamePlanet planet;
+	
+	private float respawnPlayerTimeout;
+	
+	private float arrivalAnimTime;
+	
+	private Array<EntityType> artifactsTypes = new Array<EntityType>();
 	
 	public GameScreen() {
+		
+		planet = new GamePlanet();
 		
 		hero = new Hero();
 		
@@ -74,6 +85,13 @@ public class GameScreen extends StageScreen
 		planetSprite = new Sprite(GameAssets.i().planet1);
 		
 		viewport = new FitViewport(worldWidth, worldHeight);
+		
+		hero.incoming = true;
+		hero.blinking = false;
+		hero.sprite.setPosition(-100, 700);
+		
+		altitude = sourceAltitude = 0;
+		targetAltitude = 0;
 	}
 	
 	@Override
@@ -82,7 +100,21 @@ public class GameScreen extends StageScreen
 		// check collisions
 		
 		// collidingEntity = null;
-		if(collidingEntity == null){
+		
+		if(planet.isComplete()){
+			arrivalAnimTime += delta * 1f;
+			if(arrivalAnimTime >= 1){
+				LD42.i().setScreen(new JumpingScreen());
+			}
+		}
+		else if(hero.incoming){
+			arrivalAnimTime += delta * 1f;
+			if(arrivalAnimTime >= 1){
+				hero.blinking = false;
+				hero.incoming = false;
+			}
+		}
+		else if(collidingEntity == null){
 			for(AirEntity ae : airSprites){
 				if(ae.type != EntityType.NONE){
 					float re = ae.sprite.getWidth() / 3f; // XXX reduced zone
@@ -109,105 +141,156 @@ public class GameScreen extends StageScreen
 					}
 				}
 			}
+			if(collidingEntity != null){
+				// get hurted
+				respawnPlayerTimeout = 0;
+				
+				hero.lifes--;
+			}
 		}
+		else{
+			respawnPlayerTimeout += delta;
+			if(respawnPlayerTimeout > 2){
+				respawnPlayerTimeout = 0;
+				collidingEntity = null;
+				hero.incoming = true;
+				hero.blinking = true;
+				hero.restSprites();
+				arrivalAnimTime = 0;
+				
+				altitude = sourceAltitude = 0;
+				targetAltitude = 0;
+				
+				
+				if(hero.lifes <= 0){
+					LD42.i().setScreen(new DyingScreen(false));
+				}
+			}
+		}
+		
 		// XXX debug
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
 			collidingEntity = null;
 		}		
 
+		hero.resetJetPack();
 		
+		float targetSpeed = 2;
 		
-		if(altitudeTime >= 1){
-			if(targetAltitude < 64 * 5 && Gdx.input.isKeyPressed(Input.Keys.Z)){
-				targetAltitude = sourceAltitude + 64;
-				altitudeTime = 0;
-				hero.jetPackSpawnUp();
-			}
-			if(targetAltitude > 0 && Gdx.input.isKeyPressed(Input.Keys.S)){
-				targetAltitude = sourceAltitude - 64;
-				altitudeTime = 0;
-				hero.jetPackSpawnDown();
-			}
-		}else{
-			altitudeTime += delta * 4;
-			altitude = MathUtils.lerp(sourceAltitude, targetAltitude, Interpolation.sine.apply(MathUtils.clamp(altitudeTime, 0, 1)));
-			if(altitudeTime >= 1){
-				sourceAltitude = targetAltitude;
-			}
+		if(planet.isComplete()){
+			altitude = MathUtils.lerp(altitude, 300, Interpolation.linear.apply(arrivalAnimTime));
 		}
+		else if(hero.incoming){
+			targetAltitude = 0;
+			altitude = MathUtils.lerp(64 * 6, 0, Interpolation.pow2In.apply(arrivalAnimTime));
+		}else{
+			if(altitudeTime >= 1){
+				if(targetAltitude < 64 * 5 && Gdx.input.isKeyPressed(Input.Keys.Z)){
+					targetAltitude = sourceAltitude + 64;
+					altitudeTime = 0;
+					hero.jetPackSpawnUp();
+				}
+				if(targetAltitude > 0 && Gdx.input.isKeyPressed(Input.Keys.S)){
+					targetAltitude = sourceAltitude - 64;
+					altitudeTime = 0;
+					hero.jetPackSpawnDown();
+				}
+			}else{
+				altitudeTime += delta * 4;
+				altitude = MathUtils.lerp(sourceAltitude, targetAltitude, Interpolation.sine.apply(MathUtils.clamp(altitudeTime, 0, 1)));
+				if(altitudeTime >= 1){
+					sourceAltitude = targetAltitude;
+				}
+			}
+			
+			
+			if(altitude < 10 || true){
+				if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+					hero.jetPackSpawnSlowdown();
+					targetSpeed = .5f;
+				}else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+					hero.jetPackSpawnSpeedup();
+					targetSpeed = 3f;
+				}
+			}
+			if(collidingEntity != null) speed = 3;
+		}
+		
+		speed = MathUtils.lerp(speed, targetSpeed, delta * 3f);
+		
 		hero.altitudeIndex = MathUtils.round(altitude / 64); // TODO inverse index to altitude ...
 		
-		hero.resetJetPack();
-		float targetSpeed = 2;
-		if(altitude < 10 || true){
-			if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-				hero.jetPackSpawnSlowdown();
-				targetSpeed = .5f;
-			}else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-				hero.jetPackSpawnSpeedup();
-				targetSpeed = 3f;
-			}
-			speed = MathUtils.lerp(speed, targetSpeed, delta * 3f);
-		}
-		if(collidingEntity != null) speed = 3;
 		
-		distanceOut -= delta * speed;
 		
-		if(distanceOut < 0){
-			distanceOut = MathUtils.random(5, 10); // XXX MathUtils.random(1, 3);
+		if(!hero.incoming && !planet.isComplete()){
 			
-			LandEntity entity = new LandEntity();
-			entity.type = EntityType.OBSTACLE;
-			entity.landAngle = -90;
-			Sprite s;
-			if(MathUtils.randomBoolean()){
-				s = new Sprite(GameAssets.i().montainSmall);
-				s.setOrigin(s.getWidth()/2, -400);
-				s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 64);
-			}else{
-				s = new Sprite(GameAssets.i().montainBig);
-				s.setOrigin(s.getWidth()/2, -400);
-				s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 128);
-			}
+			distanceOut -= delta * speed;
 			
-			entity.sprite = s;
-			
-			landEntities.add(entity);
-		}
-		
-		airTimeout -= delta;
-		
-		if(airTimeout < 0){
-			airTimeout = MathUtils.random(1, 3);
-			{
-				AirEntity ae = new AirEntity();
+			if(distanceOut < 0){
+				distanceOut = MathUtils.random(5, 10); // XXX MathUtils.random(1, 3);
 				
+				LandEntity entity = new LandEntity();
+				entity.type = EntityType.OBSTACLE;
+				entity.landAngle = -90;
+				Sprite s;
 				if(MathUtils.randomBoolean()){
-					ae.type = EntityType.OBSTACLE;
-					ae.sprite = new Sprite(GameAssets.i().asteroidsOne.random());
+					s = new Sprite(GameAssets.i().montainSmall);
+					s.setOrigin(s.getWidth()/2, -400);
+					s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 64);
 				}else{
-					if(MathUtils.randomBoolean()){
-						ae.type = EntityType.GAS;
-						ae.sprite = new Sprite(GameAssets.i().bonusGas);
-					}else{
-						if(MathUtils.randomBoolean()){
-							ae.type = EntityType.AIR;
-							ae.sprite = new Sprite(GameAssets.i().bonusAir);
-						}else{
-							ae.type = EntityType.ARTIFACT;
-							ae.sprite = new Sprite(GameAssets.i().bonusKey);
-						}
-						// TODO life
-					}
+					s = new Sprite(GameAssets.i().montainBig);
+					s.setOrigin(s.getWidth()/2, -400);
+					s.setBounds((worldWidth - s.getWidth())/2, 100, 64, 128);
 				}
 				
+				entity.sprite = s;
 				
-				Sprite s = ae.sprite;
-				s.setOrigin(s.getWidth()/2, s.getHeight()/2);
-				s.setBounds(worldWidth + s.getWidth(), 150 + MathUtils.random() * 200, s.getRegionWidth(), s.getRegionHeight());
-				airSprites.add(ae);
+				landEntities.add(entity);
+			}
+			
+			airTimeout -= delta;
+			
+			if(airTimeout < 0){
+				airTimeout = MathUtils.random(1, 3);
+				
+				// XXX
+				airTimeout = .5f;
+				
+				{
+					AirEntity ae = new AirEntity();
+					
+					if(MathUtils.randomBoolean()){
+						ae.type = EntityType.OBSTACLE;
+						ae.sprite = new Sprite(GameAssets.i().asteroidsOne.random());
+					}else{
+						if(MathUtils.randomBoolean()){
+							ae.type = EntityType.GAS;
+							ae.sprite = new Sprite(GameAssets.i().bonusGas);
+						}else{
+							if(MathUtils.randomBoolean()){
+								ae.type = EntityType.AIR;
+								ae.sprite = new Sprite(GameAssets.i().bonusAir);
+							}else if(MathUtils.randomBoolean()){
+								makeArtifact(ae);
+							}else{
+								ae.type = EntityType.LIFE;
+								ae.sprite = new Sprite(GameAssets.i().bonusLife);
+							}
+						}
+					}
+					
+					if(ae.type != null){
+						
+						Sprite s = ae.sprite;
+						s.setOrigin(s.getWidth()/2, s.getHeight()/2);
+						s.setBounds(worldWidth + s.getWidth(), 150 + MathUtils.random() * 200, s.getRegionWidth(), s.getRegionHeight());
+						airSprites.add(ae);
+					}
+					
+				}
 			}
 		}
+		
 		
 //		((OrthographicCamera)viewport.getCamera()).zoom = 5f;
 //		viewport.getCamera().update();
@@ -296,20 +379,43 @@ public class GameScreen extends StageScreen
 		batch.end();
 		
 		// update UI
-		gameHUD.update(hero);
+		gameHUD.update(hero, planet);
 		
 		
 		super.render(delta);
 	}
 	
+	private void makeArtifact(AirEntity ae) {
+		artifactsTypes.clear();
+		if(!planet.keyComplete) artifactsTypes.add(EntityType.KEY);
+		if(!planet.boltComplete) artifactsTypes.add(EntityType.BOLT);
+		if(!planet.screwComplete) artifactsTypes.add(EntityType.SCREW);
+		if(artifactsTypes.size > 0){
+			ae.type = artifactsTypes.random();
+			switch(ae.type){
+			case BOLT: ae.sprite = new Sprite(GameAssets.i().artifactBolt); break;
+			case SCREW: ae.sprite = new Sprite(GameAssets.i().artifactScrew); break;
+			case KEY: ae.sprite = new Sprite(GameAssets.i().artifactKey); break;
+			}
+		}
+	}
+
 	private void handleCollision(BaseEntity e) {
 		switch(e.type){
 		case AIR:
 			hero.air = 1; // air max
 			e.toRemove = true;
 			break;
-		case ARTIFACT:
-			hero.artifacts++;
+		case KEY:
+			planet.keyComplete = true;
+			e.toRemove = true;
+			break;
+		case SCREW:
+			planet.screwComplete = true;
+			e.toRemove = true;
+			break;
+		case BOLT:
+			planet.boltComplete = true;
 			e.toRemove = true;
 			break;
 		case GAS:
@@ -327,6 +433,9 @@ public class GameScreen extends StageScreen
 			break;
 		default:
 			break;
+		}
+		if(planet.isComplete()){
+			arrivalAnimTime = 0;
 		}
 	}
 

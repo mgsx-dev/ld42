@@ -25,7 +25,7 @@ public class MenuScreen extends StageScreen
 		
 		root.add(menu).expand();
 		
-		menu.add("Runnng Out of Space").padBottom(100).row();
+		menu.add("Running Out of Space").padBottom(100).row();
 		
 		TextButton btPlay;
 		menu.add(btPlay = new TextButton("PLAY", skin)).padBottom(100);

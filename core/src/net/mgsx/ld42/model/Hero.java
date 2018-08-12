@@ -1,5 +1,6 @@
 package net.mgsx.ld42.model;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,10 +16,14 @@ public class Hero {
 	private float jetPackTime;
 	public int altitudeIndex;
 	public float air = 1, gas = 1;
-	public int artifacts = 0;
 	public int lifes = GameSettings.HERO_MAX_LIFES;
 	private float consumption;
 	public boolean hurted;
+	
+	public boolean blinking;
+	public boolean incoming;
+	
+	public float blinkTime;
 	
 	public Hero() {
 		sprite = new Sprite(GameAssets.i().heroWalkAnimation.getKeyFrame(2));
@@ -65,19 +70,23 @@ public class Hero {
 			gas -= delta * .01f * consumption; // 100s gas
 		}
 		air -= delta * .01f; // 100s air
+		
+		blinkTime += delta * 15;
 	}
 	
 	public void draw(Batch batch) 
 	{
-		if(jetPackTime > 0){
-			jetPackSprite.setBounds(sprite.getX(), sprite.getY() - 32, sprite.getWidth(), sprite.getHeight());
-			jetPackSprite.setScale(MathUtils.lerp(.8f, 1.2f, (MathUtils.sin(time * 50)+1)*.5f));
-			jetPackSprite.draw(batch);
-		}else if(altitudeIndex > 0){
-			jetPackSprite.setRotation(0);
-			jetPackSprite.setBounds(sprite.getX(), sprite.getY() - 32, sprite.getWidth(), sprite.getHeight());
-			jetPackSprite.setScale(MathUtils.lerp(.5f, .8f, (MathUtils.sin(time * 50)+1)*.5f));
-			jetPackSprite.draw(batch);
+		if(!incoming){
+			if(jetPackTime > 0){
+				jetPackSprite.setBounds(sprite.getX(), sprite.getY() - 32, sprite.getWidth(), sprite.getHeight());
+				jetPackSprite.setScale(MathUtils.lerp(.8f, 1.2f, (MathUtils.sin(time * 50)+1)*.5f));
+				jetPackSprite.draw(batch);
+			}else if(altitudeIndex > 0){
+				jetPackSprite.setRotation(0);
+				jetPackSprite.setBounds(sprite.getX(), sprite.getY() - 32, sprite.getWidth(), sprite.getHeight());
+				jetPackSprite.setScale(MathUtils.lerp(.5f, .8f, (MathUtils.sin(time * 50)+1)*.5f));
+				jetPackSprite.draw(batch);
+			}
 		}
 		
 		if(hurted){
@@ -87,6 +96,13 @@ public class Hero {
 			sprite.setRegion(GameAssets.i().heroFlyAnimation.getKeyFrame(timeWalk * 2, true));
 		}else{
 			sprite.setRegion(GameAssets.i().heroWalkAnimation.getKeyFrame(timeWalk * 12));
+		}
+		
+		sprite.setColor(Color.WHITE);
+		if(blinking){
+			if(blinkTime % 2f < 1){
+				sprite.setColor(Color.BLACK);
+			}
 		}
 		
 		sprite.draw(batch);
@@ -99,5 +115,10 @@ public class Hero {
 
 	public void resetJetPack() {
 		consumption = 1;
+	}
+
+	public void restSprites() {
+		sprite.setOriginCenter();
+		sprite.setRotation(0);
 	}
 }

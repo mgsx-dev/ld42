@@ -24,7 +24,7 @@ public class GameAssets {
 	public TextureRegion montainSmallUp;
 	public TextureRegion bonusAir;
 	public TextureRegion bonusGas;
-	public TextureRegion bonusKey;
+	public TextureRegion artifactKey;
 	public Array<TextureRegion> asteroidsOne;
 	public Animation<TextureRegion> heroFlyAnimation;
 	public Animation<TextureRegion> heroFixingAnimation;
@@ -32,6 +32,9 @@ public class GameAssets {
 	public TextureRegion heroDying;
 	public TextureRegion heroHurted;
 	public Texture planet0;
+	public TextureRegion artifactBolt;
+	public TextureRegion artifactScrew;
+	public TextureRegion bonusLife;
 	
 	public GameAssets() {
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
@@ -56,9 +59,15 @@ public class GameAssets {
 		montainBig = new TextureRegion(hero, 64 * 2, 64 * 0, 64, 128);
 		
 		montainSmallUp = getCell(hero, 4, 0, 1, 2);
+		
 		bonusAir = getCell(hero, 5, 0, 1, 1);
 		bonusGas = getCell(hero, 5, 1, 1, 1);
-		bonusKey = getCell(hero, 5, 2, 1, 1);
+		
+		
+		artifactKey = getCell(hero, 5, 2, 1, 1);
+		artifactBolt = getCell(hero, 5, 3, 1, 1);
+		artifactScrew = getCell(hero, 5, 4, 1, 1);
+		bonusLife = getCell(hero, 5, 5, 1, 1);
 		
 		asteroidsOne = new Array<TextureRegion>();
 		asteroidsOne.add(getCell(hero, 2, 5, 1, 1));
