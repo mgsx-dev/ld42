@@ -31,6 +31,9 @@ private Batch batch = new SpriteBatch();
 	public DyingScreen(boolean transitToGame) 
 	{
 		super();
+		
+		GameAssets.i().playMusicOnce(transitToGame ? GameAssets.i().musicTransition : GameAssets.i().musicGameOver);
+		
 		this.transitToGame = transitToGame;
 		heroSprite = new Sprite(GameAssets.i().heroFixingAnimation.getKeyFrame(0));
 		

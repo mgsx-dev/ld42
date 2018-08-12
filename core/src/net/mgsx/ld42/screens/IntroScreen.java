@@ -31,6 +31,8 @@ public class IntroScreen extends StageScreen
 	
 	public IntroScreen() 
 	{
+		GameAssets.i().playMusic(GameAssets.i().musicIntro);
+		
 		heroSprite = new Sprite(GameAssets.i().heroFixingAnimation.getKeyFrame(0));
 		
 		explosionSprite = new Sprite(GameAssets.i().jetPackAnimation.getKeyFrame(0));

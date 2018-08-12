@@ -108,6 +108,7 @@ public class GameScreen extends StageScreen
 			airGenTimeMin *= 3f;
 			airGenTimeMax *= 3f;
 			defaultSpeed *= .8f;
+			GameAssets.i().playMusic(GameAssets.i().musicLevel1);
 		}
 		else if(GameLevels.level == 1){
 			planetTexture = GameAssets.i().planet2;
@@ -116,9 +117,11 @@ public class GameScreen extends StageScreen
 			airGenTimeMin *= 2f;
 			airGenTimeMax *= 2f;
 			defaultSpeed *= .9f;
+			GameAssets.i().playMusic(GameAssets.i().musicLevel2);
 		}
 		else{
 			planetTexture = GameAssets.i().planet3;
+			GameAssets.i().playMusic(GameAssets.i().musicLevel3);
 		}
 		
 		

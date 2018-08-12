@@ -24,6 +24,8 @@ public class MenuScreen extends StageScreen
 
 	public MenuScreen() 
 	{
+		GameAssets.i().playMusic(GameAssets.i().musicTitle);
+		
 		skin = GameAssets.i().skin;
 		
 		Table menu = new Table(skin);

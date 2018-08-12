@@ -29,6 +29,9 @@ public class JumpingScreen extends StageScreen
 	public JumpingScreen() 
 	{
 		super();
+		
+		GameAssets.i().playMusicOnce(GameAssets.i().musicTransition);
+		
 		heroSprite = new Sprite(GameAssets.i().heroFixingAnimation.getKeyFrame(0));
 		
 		skin = GameAssets.i().skin;

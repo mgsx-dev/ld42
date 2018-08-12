@@ -1,6 +1,7 @@
 package net.mgsx.ld42.assets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -36,6 +37,16 @@ public class GameAssets {
 	public TextureRegion artifactScrew;
 	public TextureRegion bonusLife;
 	public TextureRegion heroOK;
+	public Music musicTitle;
+	public Music musicLevel1;
+	public Music musicLevel2;
+	public Music musicLevel3;
+	public Music musicIntro;
+	public Music musicOutro;
+	public Music musicGameOver;
+	public Music musicTransition;
+
+	private Music currentMusic;
 	
 	public GameAssets() {
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
@@ -97,7 +108,13 @@ public class GameAssets {
 		
 		jetPackAnimation = getAnimation(hero, 1, 0, 1, 1, 4);
 		
-		
+		musicTitle = Gdx.audio.newMusic(Gdx.files.internal("music/title.ogg"));
+		musicLevel1 = Gdx.audio.newMusic(Gdx.files.internal("music/level1.ogg"));
+		musicLevel2 = Gdx.audio.newMusic(Gdx.files.internal("music/level2.ogg"));
+		musicLevel3 = Gdx.audio.newMusic(Gdx.files.internal("music/level3.ogg"));
+		musicIntro = musicOutro = Gdx.audio.newMusic(Gdx.files.internal("music/intro.ogg"));
+		musicGameOver = musicTransition = Gdx.audio.newMusic(Gdx.files.internal("music/deep-fx.ogg"));
+
 	}
 	
 	private TextureRegion getCell(Texture texture, int col, int row, int cols, int rows)
@@ -114,4 +131,27 @@ public class GameAssets {
 		}
 		return new Animation<TextureRegion>(1, regions);
 	}
+	
+	public void playMusic(Music music){
+		if(currentMusic != null){
+			currentMusic.stop();
+		}
+		currentMusic = music;
+		if(currentMusic != null){
+			currentMusic.setLooping(true);
+			currentMusic.play();
+		}
+	}
+	
+	public void playMusicOnce(Music music){
+		if(currentMusic != null){
+			currentMusic.stop();
+		}
+		currentMusic = music;
+		if(currentMusic != null){
+			currentMusic.setLooping(false);
+			currentMusic.play();
+		}
+	}
+	
 }

@@ -35,6 +35,8 @@ public class OutroScreen extends StageScreen
 	
 	public OutroScreen() 
 	{
+		GameAssets.i().playMusic(GameAssets.i().musicOutro);
+		
 		heroSprite = new Sprite(GameAssets.i().heroFixingAnimation.getKeyFrame(0));
 		
 		skin = GameAssets.i().skin;
