@@ -35,6 +35,7 @@ public class GameAssets {
 	public TextureRegion artifactBolt;
 	public TextureRegion artifactScrew;
 	public TextureRegion bonusLife;
+	public TextureRegion heroOK;
 	
 	public GameAssets() {
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
@@ -83,6 +84,7 @@ public class GameAssets {
 		heroQuestioning = getCell(hero, 0, 7, 1, 1);
 		heroDying = getCell(hero, 0, 12, 1, 1);
 		heroHurted = getCell(hero, 0, 13, 1, 1);
+		heroOK = getCell(hero, 0, 14, 1, 1);
 		
 		bgStars = new Texture(Gdx.files.internal("bg.png"));
 		
