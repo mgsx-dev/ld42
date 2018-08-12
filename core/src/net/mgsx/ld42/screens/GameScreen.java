@@ -62,7 +62,11 @@ public class GameScreen extends StageScreen
 	
 	private float arrivalAnimTime;
 	
+	private boolean outOfAir = false;
+	
 	private Array<EntityType> artifactsTypes = new Array<EntityType>();
+	
+	private boolean outOfGas;
 	
 	public GameScreen() {
 		
@@ -114,7 +118,7 @@ public class GameScreen extends StageScreen
 				hero.incoming = false;
 			}
 		}
-		else if(collidingEntity == null){
+		else if(collidingEntity == null && !outOfAir){
 			for(AirEntity ae : airSprites){
 				if(ae.type != EntityType.NONE){
 					float re = ae.sprite.getWidth() / 3f; // XXX reduced zone
@@ -147,6 +151,11 @@ public class GameScreen extends StageScreen
 				
 				hero.lifes--;
 			}
+			if(hero.air <= 0){
+				respawnPlayerTimeout = 0;
+				outOfAir = true;
+				hero.lifes--;
+			}
 		}
 		else{
 			respawnPlayerTimeout += delta;
@@ -157,6 +166,10 @@ public class GameScreen extends StageScreen
 				hero.blinking = true;
 				hero.restSprites();
 				arrivalAnimTime = 0;
+				
+				outOfAir = false;
+				hero.air = 1f;
+				hero.gas = 1f;
 				
 				altitude = sourceAltitude = 0;
 				targetAltitude = 0;
@@ -183,34 +196,56 @@ public class GameScreen extends StageScreen
 		else if(hero.incoming){
 			targetAltitude = 0;
 			altitude = MathUtils.lerp(64 * 6, 0, Interpolation.pow2In.apply(arrivalAnimTime));
+		}else if(hero.air <= 0){
+			
+			// nothing ?
+			
 		}else{
-			if(altitudeTime >= 1){
-				if(targetAltitude < 64 * 5 && Gdx.input.isKeyPressed(Input.Keys.Z)){
-					targetAltitude = sourceAltitude + 64;
+			if(hero.gas <= 0){
+				altitudeTime += delta * 1;
+				altitude = MathUtils.lerp(sourceAltitude, targetAltitude, Interpolation.linear.apply(MathUtils.clamp(altitudeTime, 0, 1)));
+				if(!outOfGas){
+					targetAltitude = 0;
 					altitudeTime = 0;
-					hero.jetPackSpawnUp();
-				}
-				if(targetAltitude > 0 && Gdx.input.isKeyPressed(Input.Keys.S)){
-					targetAltitude = sourceAltitude - 64;
-					altitudeTime = 0;
-					hero.jetPackSpawnDown();
+					outOfGas = true;
+				}else{
+					if(altitudeTime >= 1){
+						targetAltitude = 0;
+						altitudeTime = 0;
+						sourceAltitude = targetAltitude;
+						outOfGas = false;
+					}
 				}
 			}else{
-				altitudeTime += delta * 4;
-				altitude = MathUtils.lerp(sourceAltitude, targetAltitude, Interpolation.sine.apply(MathUtils.clamp(altitudeTime, 0, 1)));
+				outOfGas = false;
 				if(altitudeTime >= 1){
-					sourceAltitude = targetAltitude;
+					if(targetAltitude < 64 * 5 && Gdx.input.isKeyPressed(Input.Keys.Z)){
+						targetAltitude = sourceAltitude + 64;
+						altitudeTime = 0;
+						hero.jetPackSpawnUp();
+					}
+					if(targetAltitude > 0 && Gdx.input.isKeyPressed(Input.Keys.S)){
+						targetAltitude = sourceAltitude - 64;
+						altitudeTime = 0;
+						hero.jetPackSpawnDown();
+					}
+				}else{
+					altitudeTime += delta * 4;
+					altitude = MathUtils.lerp(sourceAltitude, targetAltitude, Interpolation.sine.apply(MathUtils.clamp(altitudeTime, 0, 1)));
+					if(altitudeTime >= 1){
+						sourceAltitude = targetAltitude;
+					}
 				}
-			}
-			
-			
-			if(altitude < 10 || true){
-				if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-					hero.jetPackSpawnSlowdown();
-					targetSpeed = .5f;
-				}else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-					hero.jetPackSpawnSpeedup();
-					targetSpeed = 3f;
+				
+				
+				if(altitude < 10 || true){
+					if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+						hero.jetPackSpawnSlowdown();
+						targetSpeed = .5f;
+					}else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+						hero.jetPackSpawnSpeedup();
+						targetSpeed = 3f;
+					}
 				}
 			}
 			if(collidingEntity != null) speed = 3;
@@ -222,7 +257,7 @@ public class GameScreen extends StageScreen
 		
 		
 		
-		if(!hero.incoming && !planet.isComplete()){
+		if(!hero.incoming && !planet.isComplete() && hero.air > 0){
 			
 			distanceOut -= delta * speed;
 			
@@ -316,7 +351,14 @@ public class GameScreen extends StageScreen
 		planetSprite.setOrigin(planetSprite.getWidth()/2, planetSprite.getHeight()/2);
 		planetSprite.setRotation(time * 30);
 		
-		if(collidingEntity != null){
+		if(hero.air <= 0){
+			hero.hurted = true;
+			// hero.sprite.setRegion(GameAssets.i().heroDying);
+			hero.sprite.setPosition(hero.sprite.getX() - delta * 300, hero.sprite.getY() + delta * 100);
+			hero.sprite.setRotation(hero.sprite.getRotation());
+			hero.sprite.setOriginCenter();
+		}
+		else if(collidingEntity != null){
 			hero.jetPackOff();
 			hero.sprite.setPosition(collidingEntity.sprite.getX(), collidingEntity.sprite.getY());
 			hero.sprite.setRotation(collidingEntity.sprite.getRotation());

@@ -55,6 +55,10 @@ public class GameHUD extends Table
 		lbAir.setText(String.valueOf(MathUtils.round(Math.max(0, hero.air) * 100)));
 		lbLife.setText(String.valueOf(hero.lifes));
 		
+		lbGas.setColor(hero.gas < .5f ? Color.ORANGE : hero.gas < .1f ? Color.RED : Color.WHITE);
+		lbAir.setColor(hero.air < .5f ? Color.ORANGE : hero.air < .1f ? Color.RED : Color.WHITE);
+		lbLife.setColor(hero.lifes <= 1 ? Color.RED : Color.WHITE);
+		
 		lbScrew.setColor(planet.screwComplete ? Color.GREEN : Color.GRAY);
 		lbKey.setColor(planet.keyComplete ? Color.GREEN : Color.GRAY);
 		lbBolt.setColor(planet.boltComplete ? Color.GREEN : Color.GRAY);

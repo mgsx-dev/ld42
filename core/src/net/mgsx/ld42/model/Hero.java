@@ -15,7 +15,7 @@ public class Hero {
 	private float timeWalk;
 	private float jetPackTime;
 	public int altitudeIndex;
-	public float air = 1, gas = 1;
+	public float air = GameSettings.AIR_INIT, gas = GameSettings.GAS_INIT;
 	public int lifes = GameSettings.HERO_MAX_LIFES;
 	private float consumption;
 	public boolean hurted;
@@ -67,16 +67,20 @@ public class Hero {
 		//jetPackSprite.setOriginCenter();;
 		
 		if(altitudeIndex > 0){
-			gas -= delta * .01f * consumption; // 100s gas
+			gas -= delta / GameSettings.GAS_DURATION * consumption; // 100s gas
+		}else{
+			gas += delta / GameSettings.GAS_REGEN;
 		}
-		air -= delta * .01f; // 100s air
+		gas = Math.min(gas, 1f);
+		
+		air -= delta / GameSettings.AIR_DURATION ;
 		
 		blinkTime += delta * 15;
 	}
 	
 	public void draw(Batch batch) 
 	{
-		if(!incoming){
+		if(!incoming && !hurted){
 			if(jetPackTime > 0){
 				jetPackSprite.setBounds(sprite.getX(), sprite.getY() - 32, sprite.getWidth(), sprite.getHeight());
 				jetPackSprite.setScale(MathUtils.lerp(.8f, 1.2f, (MathUtils.sin(time * 50)+1)*.5f));
