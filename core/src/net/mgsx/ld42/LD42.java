@@ -35,11 +35,16 @@ public class LD42 extends Game {
 		// setScreen(new OutroScreen());
 	}
 
+	private boolean paused = false;
+	
 	@Override
 	public void render () {
 		
 		boolean debug = false; // XXX
 		if(debug){
+			if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+				paused = !paused;
+			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
 				GameLevels.level = 0;
 				setScreen(new MenuScreen());
@@ -81,7 +86,7 @@ public class LD42 extends Game {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		super.render();
+		if (screen != null) screen.render(paused ? 0 : Gdx.graphics.getDeltaTime());
 	}
 	
 }
