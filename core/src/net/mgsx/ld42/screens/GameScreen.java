@@ -1,7 +1,5 @@
 package net.mgsx.ld42.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -27,6 +25,7 @@ import net.mgsx.ld42.model.Hero;
 import net.mgsx.ld42.model.LandEntity;
 import net.mgsx.ld42.ui.GameHUD;
 import net.mgsx.ld42.utils.StageScreen;
+import net.mgsx.ld42.utils.UniInput;
 
 public class GameScreen extends StageScreen
 {
@@ -220,9 +219,9 @@ public class GameScreen extends StageScreen
 		}
 		
 		// XXX debug
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-			collidingEntity = null;
-		}		
+//		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+//			collidingEntity = null;
+//		}		
 
 		hero.resetJetPack();
 		
@@ -257,12 +256,12 @@ public class GameScreen extends StageScreen
 			}else{
 				outOfGas = false;
 				if(altitudeTime >= 1){
-					if(targetAltitude < 64 * 5 && Gdx.input.isKeyPressed(Input.Keys.Z)){
+					if(targetAltitude < 64 * 4 && UniInput.isKeyPressed(UniInput.UP)){
 						targetAltitude = sourceAltitude + 64;
 						altitudeTime = 0;
 						hero.jetPackSpawnUp();
 					}
-					if(targetAltitude > 0 && Gdx.input.isKeyPressed(Input.Keys.S)){
+					if(targetAltitude > 0 && UniInput.isKeyPressed(UniInput.DOWN)){
 						targetAltitude = sourceAltitude - 64;
 						altitudeTime = 0;
 						hero.jetPackSpawnDown();
@@ -277,10 +276,10 @@ public class GameScreen extends StageScreen
 				
 				
 				if(altitude < 10 || true){
-					if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+					if(UniInput.isKeyPressed(UniInput.LEFT)){
 						hero.jetPackSpawnSlowdown();
 						targetSpeed = defaultSpeed / 4f;
-					}else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+					}else if(UniInput.isKeyPressed(UniInput.RIGHT)){
 						hero.jetPackSpawnSpeedup();
 						targetSpeed = defaultSpeed * 1.5f;
 					}
