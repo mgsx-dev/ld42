@@ -36,11 +36,11 @@ public class GameHUD extends Table
 		tableStats.add(lbAir = new Label("", skin)).width(100);
 		tableStats.row();
 		
-		tableStats.add(lbScrew = new Label("Screw", skin)).width(100);
+		tableStats.add(lbKey = new Label("Wrench", skin)).width(100);
 		tableStats.add().row();
-		tableStats.add(lbKey = new Label("Key", skin)).width(100);
+		tableStats.add(lbScrew = new Label("Bolt", skin)).width(100);
 		tableStats.add().row();
-		tableStats.add(lbBolt = new Label("Bolt", skin)).width(100);
+		tableStats.add(lbBolt = new Label("Nut", skin)).width(100);
 		tableStats.add().row();
 		
 		lbScrew.setColor(Color.GRAY);
